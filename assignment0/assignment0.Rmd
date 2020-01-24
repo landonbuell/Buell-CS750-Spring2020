@@ -3,8 +3,7 @@ title: "Assignment 0"
 author: Landon Buell
 date: 23 January 2020
 subtitle: CS 750/850 Machine Learning
-output:
-  pdf_document: default
+output: pdf_document
 ---
 
 - **Due**: Monday 1/27 at 11:59PM
@@ -17,6 +16,7 @@ output:
 What are the advantages and disadvantages of very flexible (vs less flexible) approach for regression or classification? 
 
 1. When would be a more flexible approach preferable?
+\paragraph*{}
 2. What about a less-flexible approach?
 
 ## Problem 2 [33\%]
@@ -24,8 +24,22 @@ What are the advantages and disadvantages of very flexible (vs less flexible) ap
 Install and learn to use R (<https://www.r-project.org/>) or Python, read the labs in Chapter 2 of the textbook. We recommend that you use R Notebooks of RStudio to typeset homeworks. Jupyter is a comparable tool for Python. Use Python or another tool (like MATLAB or Julia) if you have some experience and you will not need help from the TA/instructor. Then:
 
 1. Download the advertising dataset (`Advertising.csv`) from <http://www-bcf.usc.edu/~gareth/ISL/data.html> and load it into R/Python (use function `read.csv()` in R or Pandas in Python)
+```{r}
+print("Reading 'Advertising.csv' file")
+filename = 'Advertising.csv'
+filedata = read.csv(file=filename)
+filedata
+```
 2. What are the minimum, maximum, and mean value of each feature? (in R use function `summary()` and or `range()`)
+```{r}
+print("Summary of 'Advertising.csv'")
+summary(filedata)
+
+```
 3. Produce a scatterplot matrix of all variables (in R use function `pairs()`)
+```{r}
+
+```
 4. Produce a histogram of TV advertising (in R use function `hist()`)
 
 ## Problem 3 [34\%]
