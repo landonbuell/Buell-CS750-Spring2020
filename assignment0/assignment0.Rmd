@@ -19,37 +19,49 @@ What are the advantages and disadvantages of very flexible (vs less flexible) ap
 \paragraph*{}
 2. What about a less-flexible approach?
 
+\pagebreak
+
 ## Problem 2 [33\%]
 
 Install and learn to use R (<https://www.r-project.org/>) or Python, read the labs in Chapter 2 of the textbook. We recommend that you use R Notebooks of RStudio to typeset homeworks. Jupyter is a comparable tool for Python. Use Python or another tool (like MATLAB or Julia) if you have some experience and you will not need help from the TA/instructor. Then:
 
 1. Download the advertising dataset (`Advertising.csv`) from <http://www-bcf.usc.edu/~gareth/ISL/data.html> and load it into R/Python (use function `read.csv()` in R or Pandas in Python)
 ```{r}
-print("Reading 'Advertising.csv' file")
 filename = 'Advertising.csv'
 filedata = read.csv(file=filename)
-filedata
+print(class(filedata)) 
 ```
 2. What are the minimum, maximum, and mean value of each feature? (in R use function `summary()` and or `range()`)
 ```{r}
-print("Summary of 'Advertising.csv'")
 summary(filedata)
-
 ```
 3. Produce a scatterplot matrix of all variables (in R use function `pairs()`)
 ```{r}
-
+pairs(filedata)
 ```
 4. Produce a histogram of TV advertising (in R use function `hist()`)
+```{r}
+hist(filedata[["TV"]])
+```
+
+\pagebreak
 
 ## Problem 3 [34\%]
 
 Describe some real-life applications for machine learning. 
 
-1. Describe one real-life application in which *classification* combined with *prediction* may be useful. Describe the response and predictors. 
-2. Describe one real-life application in which *classification* combined with *inference* may be useful. Describe the response and predictors. 
-3. Describe one real-life application in which *regression* combined with *prediction* may be useful. Describe the response and predictors. 
-4. Describe one real-life application in which *regression* combined with *inference* may be useful. Describe the response and predictors. 	
+1. Describe one real-life application in which *classification* combined with *prediction* may be useful. Describe the response and predictors. \
+In a self driving, car. A front- facing camera could use some sort of classification methods (SGD) to be able to indentify brake lights or trafic lights in an image. Once a brake light or no brake light or red traffic light is identified, another prediciton method could be used to predict when traffic will start up or start again. 
+
+
+2. Describe one real-life application in which *classification* combined with *inference* may be useful. Describe the response and predictors. \
+Again, with self-driving cars (My brother has a Tesla) a camera classification algorithm could be use to identify an image with a car changing lanes in front of you. Some sort of an infrence algorithm can then be used to determine weather no ot to activate the brakes on the car and how strongly to do so.
+
+
+3. Describe one real-life application in which *regression* combined with *prediction* may be useful. Describe the response and predictors. \
+If we track the median salarays for Americans in the early 2000's, we can use regression to generate a model (or a function $f$) that tracks median salaries as a function of the year. We can then used this trained model to \textit{predict} the possible median salaries for the next few years in the 2020's.
+
+4. Describe one real-life application in which *regression* combined with *inference* may be useful. Describe the response and predictors. \
 
 
 ## Optional Problem O3 [39\%]
