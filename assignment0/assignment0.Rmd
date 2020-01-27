@@ -15,9 +15,11 @@ output: pdf_document
 
 What are the advantages and disadvantages of very flexible (vs less flexible) approach for regression or classification? 
 
-1. When would be a more flexible approach preferable?
-\paragraph*{}
+1. When would be a more flexible approach preferable?\
+Regression allows for a far more flexible approach to building a function $\hat{f}$. By using a set of input data, $X$, we can produce a (mostly) continuous function $Y = f(X)$ that can effectly cover a larger range of values than classification. This more flexible approach would be useful for predicting a set of continuous output. For example, If you wanted to produce a function that predicted a country's GDP based on it's own economic growth, and the growth of it's neighboring countries GDP, then a more flexible regression would be of great benefit.
+
 2. What about a less-flexible approach?
+Classification allows for a less flexible approach to buidling the function $\hat{f}$. With the set of input data, $X$, then we can create a set of discrete bins to place our output values, $Y$ into. For example. if we were trying to build a model that tries to determine a person age based on a picture of them, it would be far more valid to attempt to group them by (for example) sets of 5 years. Trying to produce a regression to determine a continuous age down to monthsm weeks and so forth would be far less helpful than a less flexible classifier. 
 
 \pagebreak
 
@@ -53,16 +55,14 @@ Describe some real-life applications for machine learning.
 1. Describe one real-life application in which *classification* combined with *prediction* may be useful. Describe the response and predictors. \
 In a self driving, car. A front- facing camera could use some sort of classification methods (SGD) to be able to indentify brake lights or trafic lights in an image. Once a brake light or no brake light or red traffic light is identified, another prediciton method could be used to predict when traffic will start up or start again. 
 
-
 2. Describe one real-life application in which *classification* combined with *inference* may be useful. Describe the response and predictors. \
-Again, with self-driving cars (My brother has a Tesla) a camera classification algorithm could be use to identify an image with a car changing lanes in front of you. Some sort of an infrence algorithm can then be used to determine weather no ot to activate the brakes on the car and how strongly to do so.
-
+Again, with self-driving cars (My brother has a Tesla) a camera classification algorithm could be use to identify an image with a car changing lanes in front of you. We can then use an infrence algorithm to detemine how the distance you and the car affects how strongly and soon the brakes need by applied.
 
 3. Describe one real-life application in which *regression* combined with *prediction* may be useful. Describe the response and predictors. \
 If we track the median salarays for Americans in the early 2000's, we can use regression to generate a model (or a function $f$) that tracks median salaries as a function of the year. We can then used this trained model to \textit{predict} the possible median salaries for the next few years in the 2020's.
 
 4. Describe one real-life application in which *regression* combined with *inference* may be useful. Describe the response and predictors. \
-
+Using a similar set of data, we can use a regression algorithm to produce a function $f$. We can then use the features in that data set to infer how something like their geography affects either their median salary or their median salary's rate of change. 
 
 ## Optional Problem O3 [39\%]
 
