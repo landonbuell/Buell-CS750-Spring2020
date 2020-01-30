@@ -77,6 +77,10 @@ Read Chapter 1 and solve Exercises *1.6* and *1.10* in [Bishop, C. M. (2006). Pa
 
 ## Problem 2 [25\%] 
 Read through Section 2.3 in ISL. Load the `Auto` data set and *make sure to remove missing values from the data*. Then answer the following questions:
+```{r}
+autodata <- read.csv(file='Auto.csv')
+autodata <- autodata[!is.na(autodata)]
+```
 
 1. Which predictors are *quantitative* and which ones are *qualitative*?
 2. What is the range, mean, and standard deviation of each predictor? Use `range()` [`pandas.DataFrame.min` and `max`] function.
@@ -101,3 +105,4 @@ Each reference is a link. Please open the PDF in a viewer if it is not working o
 2. [Python Pandas data visualization](https://machinelearningmastery.com/visualize-machine-learning-data-python-pandas/)
 3. [R For Data Science](https://r4ds.had.co.nz/index.html)
 4. [Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+fff
