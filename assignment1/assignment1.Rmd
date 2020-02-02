@@ -1,9 +1,11 @@
 ---
 title: "Assignment 1"
-author: Landon Buell
-date: 29 January 2020
+author: "Landon Buell"
+date: "29 January 2020"
+output:
+  pdf_document: default
+  word_document: default
 subtitle: CS 750/850 Machine Learning
-output: pdf_document
 ---
 
 - **Due**: Monday 2/3 at 11:59PM
@@ -78,12 +80,30 @@ Read Chapter 1 and solve Exercises *1.6* and *1.10* in [Bishop, C. M. (2006). Pa
 ## Problem 2 [25\%] 
 Read through Section 2.3 in ISL. Load the `Auto` data set and *make sure to remove missing values from the data*. Then answer the following questions:
 ```{r}
-autodata <- read.csv(file='Auto.csv')
-autodata <- autodata[!is.na(autodata)]
+# Below is from James, pg. 49
+autodata <- read.csv(file='Auto.csv',header=T,na.strings="?")
+#fix(autodata) # I'm not sure what "fix()" does
+dim(autodata) # dimensions of array (nrows,ncols)
+
+autodata = na.omit(autodata) # eliminate "na's"
+dim(autodata) # dimensions of array (nrows,ncols)
+
+# check variable names:
+names(autodata)
+
 ```
 
 1. Which predictors are *quantitative* and which ones are *qualitative*?
+```{r}
+summary(autodata)
+```
+The \textit{name}, \textit{origin}, and perhaps even the \textit{year} are all quantitative. The \textit{MPG}, \textit{Cylinders}, \textit{Displacement}, \textit{horsepower}, \textit{weight} and \textit{acceleration} categories are all made up of quantitative data.
 2. What is the range, mean, and standard deviation of each predictor? Use `range()` [`pandas.DataFrame.min` and `max`] function.
+```{r}
+print("Mins & Maxes:")
+
+
+```
 3. Investigate the predictors graphically using plots. Create plots highlighting relationships between predictors. See [1] for a ggplot cheatsheet.
 4. Compute the matrix of correlations between variables using the function `cor()` [P: `pandas.DataFrame.corr`]. Exclude the `name` variable.
 5. Use the `lm()` function to perform a multiple linear regression with `mpg` as the response. [P: using `rpy` package is acceptable] Exclude `name` as a predictor, since it is qualitative. Briefly comment on the output: What is the relationship between the predictors? What does the coefficient for `year` variable suggest?
@@ -92,6 +112,14 @@ autodata <- autodata[!is.na(autodata)]
 
 ## Problem 3 [25\%]
 Using equation (3.4) in ISL, argue that in the case of simple linear regression, the least squares line always passes through the point $(\bar{x}, \bar{y})$.
+Equation (3.4) in ISL:
+
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y})}
+{\sum_{i=1}^n(x_i-\bar{x})^2}$$
+and
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$$
+Simple linear regression produces a 'line of best fit' using the two coefficients, $\beta_0$ and $\beta_1$ as defined above. This fit takes the form of $f(X) = \beta_0 + \beta_1 X + \epsilon$.
+
 
 ## Problem 4 [25\%]
 It is claimed in the ISL book that in the case of simple linear regression of $Y$ onto $X$, the $R^2$ statistic (3.17) is equal to the square of the correlation between $X$ and $Y$ (3.18). Prove that this is the case. For simplicity, you may assume that $\bar{x} = \bar{y} = 0$.
