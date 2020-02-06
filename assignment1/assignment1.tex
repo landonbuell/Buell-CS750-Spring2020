@@ -1,0 +1,799 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Assignment 1},
+  pdfauthor={Landon Buell},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Assignment 1}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{CS 750/850 Machine Learning}
+\author{Landon Buell}
+\date{29 January 2020}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Due}: Monday 2/3 at 11:59PM
+\item
+  \textbf{Submisssion}: Turn in as a \textbf{PDF} and the \textbf{source
+  code} (R,Rmd,py,ipynb) on \href{http://mycourses.unh.edu}{MyCourses}
+\item
+  \textbf{Questions}:
+  \href{piazza.com/unh/spring2020/cs750cs850}{Piazza} and Office hours:
+  \emph{Marek}: Wed 1:30-3:00pm, Soheil: Mon 2-4pm, Xihong: Thu
+  1:30-3:30pm
+\item
+  \textbf{Extra credit}: Especially good questions or helpful answers on
+  Piazza regarding the assignment earn up to 5 points extra credit
+  towards the assignment grade.
+\end{itemize}
+
+The instructions are geared towards R users. The comments in {[}P:
+xxx{]} are meant as hints to Python users.
+
+Feel free to achieve the results using commands other than the ones
+mentioned. R, especially, shines when it comes to processing and
+visualization of structured data, but you would not be able to tell from
+the ISL book. It uses the oldest and simplest (and ugliest) subset of R.
+I recommend checking out \texttt{dplyr} for data processing {[}3,4{]}
+and GGPlot {[}1,4{]} for plotting.
+
+\hypertarget{problem-1-25}{%
+\subsection{Problem 1 {[}25\%{]}}\label{problem-1-25}}
+
+In this exercise you will create some simulated data and will fit simple
+linear regression models to it. Make sure to use \texttt{set.seed(1)}
+{[}P: \texttt{np.random.seed(1)}{]} prior to starting part (1) to ensure
+consistent results.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Using the \texttt{rnorm()} {[}P: \texttt{np.random.normal}{]}
+  function, create a vector, \texttt{x}, containing \(100\) observations
+  drawn from a \(\mathcal{N}(0, 3)\) distribution (Normal distribution
+  with the mean \(0\) and the \textbf{standard deviation} \(\sqrt{3}\)).
+  This represents a feature, \(X\).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DataTypeTok{n=}\DecValTok{100}\NormalTok{,}\DataTypeTok{mean=}\DecValTok{0}\NormalTok{,}\DataTypeTok{sd=}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Using the \texttt{rnorm()} function, create a vector, \texttt{eps},
+  containing \(100\) observations drawn from a \(\mathcal{N}(0, 0.5)\)
+  distribution i.e.~a normal distribution with mean zero and standard
+  deviation \(\sqrt{0.5}\).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{eps <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DataTypeTok{n=}\DecValTok{100}\NormalTok{,}\DataTypeTok{mean=}\DecValTok{0}\NormalTok{,}\DataTypeTok{sd=}\KeywordTok{sqrt}\NormalTok{(}\FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Using \texttt{x} and \texttt{eps}, generate a vector \texttt{y}
+  according to the model \(Y\): \[ Y = -2 + 0.6 X + \epsilon \] What is
+  the length (number of elements) of \texttt{y}? What are the values of
+  \(\beta_0,\beta_1\) in the equation above (intercept and slope)?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Y <-}\StringTok{ }\DecValTok{-2} \OperatorTok{+}\StringTok{ }\FloatTok{0.6}\OperatorTok{*}\NormalTok{x }\OperatorTok{+}\StringTok{ }\NormalTok{eps}
+\KeywordTok{message}\NormalTok{(}\StringTok{"Elements in Y:"}\NormalTok{,}\KeywordTok{length}\NormalTok{(Y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Elements in Y:100
+\end{verbatim}
+
+In this model above, the intercept is given by \(\beta_0 = -2\) and the
+slope is given by \(\beta_1 = +0.6\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Create a scatterplot displaying the relationship between \texttt{x}
+  and \texttt{y}. Comment on what you observe. {[}P: see {[}2{]}{]}
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(x,Y,}\DataTypeTok{main=}\StringTok{'Scatter Plot of X and Y'}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{'X'}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{'Y'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-4-1.pdf}
+The data seemes to be losely correlated, following a roughly linear
+relationship. (As I would expect it to because of our linear model)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Fit a least squares linear model to predict \texttt{y} using
+  \texttt{x}. Comment on the model obtained. How do
+  \(\hat{\beta}_0,\hat{\beta}_1\) compare to \(\beta_0,\beta_1\)?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lin_fit <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Y}\OperatorTok{~}\NormalTok{x) }\CommentTok{# lm = linear model}
+\NormalTok{lin_fit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Y ~ x)
+## 
+## Coefficients:
+## (Intercept)            x  
+##     -2.0267       0.5996
+\end{verbatim}
+
+The regression line is a linear relationsip (1st degree polynomial) as
+anticipated. It produces a fit such that the sum of the vertical
+distances between each data point and the line has been minimized.\\
+In our equation, we set the intercept and slope to be: \(\beta_0 = -2\)
+and \(\beta_1 = +0.6\). repectivly. In the fit model, the linear model
+found the approximations of the slpoe and intercept to be roughly:
+\(\hat{\beta_0} = -2.0267\) and \(\hat{\beta_1} = +0.5996\) as shown by
+the coeffefcients in the fit variable above.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Display the least squares line on the scatterplot obtained in 4.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(x,Y,}\DataTypeTok{main=}\StringTok{'Scatter Plot of X and Y'}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{'X'}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{'Y'}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(lin_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-6-1.pdf}
+7. Now fit a polynomial regression model that predicts \(y\) using \(x\)
+and \(x^2\). Is there evidence that the quadratic term improves the
+model fit? Explain your answer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{quad_fit =}\StringTok{ }\KeywordTok{lm}\NormalTok{(Y}\OperatorTok{~}\KeywordTok{poly}\NormalTok{(x,}\DecValTok{2}\NormalTok{))}
+\NormalTok{quad_fit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Y ~ poly(x, 2))
+## 
+## Coefficients:
+## (Intercept)  poly(x, 2)1  poly(x, 2)2  
+##     -1.9136       9.2809      -0.9504
+\end{verbatim}
+
+The quadratic model seems to be much further removed from the data set.
+Ideally, I would have expected the intercept and slope coefficients to
+remain fairly close to the repesctive linear model and then the
+quadratic coefficient to be close to zero. TOo me this would indicate
+that the quadratic term was not important, but still allow for the
+retention of the properties of the linear model. Instead, the addition
+of another polynomial term completely changes the best fit model to a
+point where is differs greatly from the expected value. Now we have the
+predictions: \(\hat{\beta}_0 = -19.136\), \(\hat{\beta}_1 = 9.2809\) and
+\(\hat{\beta}_2 = -0.9504\).
+
+\hypertarget{optional-problem-o1-30}{%
+\subsection{Optional Problem O1
+{[}30\%{]}}\label{optional-problem-o1-30}}
+
+This problem can be substituted for Problem 1 above, for up to 5 points
+extra credit. At most one of the problems 1 and O1 will be considered.
+
+Read Chapter 1 and solve Exercises \emph{1.6} and \emph{1.10} in
+{[}Bishop, C. M. (2006). Pattern Recognition and Machine Learning{]}.
+
+\hypertarget{problem-2-25}{%
+\subsection{Problem 2 {[}25\%{]}}\label{problem-2-25}}
+
+Read through Section 2.3 in ISL. Load the \texttt{Auto} data set and
+\emph{make sure to remove missing values from the data}. Then answer the
+following questions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Below is from James, pg. 49}
+\NormalTok{autodata <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file=}\StringTok{'Auto.csv'}\NormalTok{,}\DataTypeTok{header=}\NormalTok{T,}\DataTypeTok{na.strings=}\StringTok{"?"}\NormalTok{)}
+\CommentTok{#fix(autodata) # I'm not sure what "fix()" does}
+\KeywordTok{dim}\NormalTok{(autodata) }\CommentTok{# dimensions of array (nrows,ncols)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 397   9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{autodata =}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(autodata) }\CommentTok{# eliminate "na's"}
+\KeywordTok{dim}\NormalTok{(autodata) }\CommentTok{# dimensions of array (nrows,ncols)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 392   9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# check variable names:}
+\KeywordTok{names}\NormalTok{(autodata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "mpg"          "cylinders"    "displacement" "horsepower"   "weight"      
+## [6] "acceleration" "year"         "origin"       "name"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Which predictors are \emph{quantitative} and which ones are
+  \emph{qualitative}?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(autodata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       mpg          cylinders      displacement     horsepower        weight    
+##  Min.   : 9.00   Min.   :3.000   Min.   : 68.0   Min.   : 46.0   Min.   :1613  
+##  1st Qu.:17.00   1st Qu.:4.000   1st Qu.:105.0   1st Qu.: 75.0   1st Qu.:2225  
+##  Median :22.75   Median :4.000   Median :151.0   Median : 93.5   Median :2804  
+##  Mean   :23.45   Mean   :5.472   Mean   :194.4   Mean   :104.5   Mean   :2978  
+##  3rd Qu.:29.00   3rd Qu.:8.000   3rd Qu.:275.8   3rd Qu.:126.0   3rd Qu.:3615  
+##  Max.   :46.60   Max.   :8.000   Max.   :455.0   Max.   :230.0   Max.   :5140  
+##                                                                                
+##   acceleration        year           origin                      name    
+##  Min.   : 8.00   Min.   :70.00   Min.   :1.000   amc matador       :  5  
+##  1st Qu.:13.78   1st Qu.:73.00   1st Qu.:1.000   ford pinto        :  5  
+##  Median :15.50   Median :76.00   Median :1.000   toyota corolla    :  5  
+##  Mean   :15.54   Mean   :75.98   Mean   :1.577   amc gremlin       :  4  
+##  3rd Qu.:17.02   3rd Qu.:79.00   3rd Qu.:2.000   amc hornet        :  4  
+##  Max.   :24.80   Max.   :82.00   Max.   :3.000   chevrolet chevette:  4  
+##                                                  (Other)           :365
+\end{verbatim}
+
+The \textit{name}, \textit{origin}, and perhaps even the \textit{year}
+are all quantitative. The \textit{MPG}, \textit{Cylinders},
+\textit{Displacement}, \textit{horsepower}, \textit{weight} and
+\textit{acceleration} categories are all made up of quantitative data.
+2. What is the range, mean, and standard deviation of each predictor?
+Use \texttt{range()} {[}\texttt{pandas.DataFrame.min} and
+\texttt{max}{]} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\StringTok{"Mins & Maxes:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Mins & Maxes:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# I tried to do this in a 'for loop' but I couldn't get it to work!}
+\CommentTok{# I just hard-coded it, sorry (I'm a Python guy)}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"MPG:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{mpg),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## MPG: 9 46.6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Cylinders:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{cylinders),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Cylinders: 3 8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Displacement:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{displacement),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Displacement: 68 455
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Horsepower:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{horsepower),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Horsepower: 46 230
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Weight:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{weight),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Weight: 1613 5140
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Acceleration:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{acceleration),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Acceleration: 8 24.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Year:"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{year),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Year: 70 82
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Origin"}\NormalTok{,}\KeywordTok{range}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{origin),}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Origin 1 3
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Investigate the predictors graphically using plots. Create plots
+  highlighting relationships between predictors. See {[}1{]} for a
+  ggplot cheatsheet.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\CommentTok{# ggplot(autodata,aes(x=mpg,y=year))}
+\CommentTok{# how you you get ggplot to show points? It just produces an empty background!}
+
+\KeywordTok{qplot}\NormalTok{(}\DataTypeTok{x=}\NormalTok{mpg,}\DataTypeTok{y=}\NormalTok{horsepower,}\DataTypeTok{data=}\NormalTok{autodata)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qplot}\NormalTok{(}\DataTypeTok{x=}\NormalTok{mpg,}\DataTypeTok{y=}\NormalTok{weight,}\DataTypeTok{data=}\NormalTok{autodata)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-11-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qplot}\NormalTok{(}\DataTypeTok{x=}\NormalTok{horsepower,}\DataTypeTok{y=}\NormalTok{weight,}\DataTypeTok{data=}\NormalTok{autodata)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-11-3.pdf}
+4. Compute the matrix of correlations between variables using the
+function \texttt{cor()} {[}P: \texttt{pandas.DataFrame.corr}{]}. Exclude
+the \texttt{name} variable.\\
+Matrix of Coreelations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{drops <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"name"}\NormalTok{)}
+\NormalTok{auto2 <-}\StringTok{ }\NormalTok{autodata[ , }\OperatorTok{!}\NormalTok{(}\KeywordTok{names}\NormalTok{(autodata) }\OperatorTok{%in%}\StringTok{ }\NormalTok{drops)]}
+\CommentTok{# modifed this from Stack Overflow}
+\KeywordTok{cor}\NormalTok{(auto2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     mpg  cylinders displacement horsepower     weight
+## mpg           1.0000000 -0.7776175   -0.8051269 -0.7784268 -0.8322442
+## cylinders    -0.7776175  1.0000000    0.9508233  0.8429834  0.8975273
+## displacement -0.8051269  0.9508233    1.0000000  0.8972570  0.9329944
+## horsepower   -0.7784268  0.8429834    0.8972570  1.0000000  0.8645377
+## weight       -0.8322442  0.8975273    0.9329944  0.8645377  1.0000000
+## acceleration  0.4233285 -0.5046834   -0.5438005 -0.6891955 -0.4168392
+## year          0.5805410 -0.3456474   -0.3698552 -0.4163615 -0.3091199
+## origin        0.5652088 -0.5689316   -0.6145351 -0.4551715 -0.5850054
+##              acceleration       year     origin
+## mpg             0.4233285  0.5805410  0.5652088
+## cylinders      -0.5046834 -0.3456474 -0.5689316
+## displacement   -0.5438005 -0.3698552 -0.6145351
+## horsepower     -0.6891955 -0.4163615 -0.4551715
+## weight         -0.4168392 -0.3091199 -0.5850054
+## acceleration    1.0000000  0.2903161  0.2127458
+## year            0.2903161  1.0000000  0.1815277
+## origin          0.2127458  0.1815277  1.0000000
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Use the \texttt{lm()} function to perform a multiple linear regression
+  with \texttt{mpg} as the response. {[}P: using \texttt{rpy} package is
+  acceptable{]} Exclude \texttt{name} as a predictor, since it is
+  qualitative. Briefly comment on the output: What is the relationship
+  between the predictors? What does the coefficient for \texttt{year}
+  variable suggest?\\
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fits <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{cylinders}\OperatorTok{+}\NormalTok{displacement }\OperatorTok{+}\StringTok{ }\NormalTok{horsepower}\OperatorTok{+}\NormalTok{weight}\OperatorTok{+}\NormalTok{acceleration}\OperatorTok{+}\NormalTok{year}\OperatorTok{+}\NormalTok{origin ,}\DataTypeTok{data=}\NormalTok{autodata)}
+\KeywordTok{summary}\NormalTok{(fits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = mpg ~ cylinders + displacement + horsepower + weight + 
+##     acceleration + year + origin, data = autodata)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.5903 -2.1565 -0.1169  1.8690 13.0604 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -17.218435   4.644294  -3.707  0.00024 ***
+## cylinders     -0.493376   0.323282  -1.526  0.12780    
+## displacement   0.019896   0.007515   2.647  0.00844 ** 
+## horsepower    -0.016951   0.013787  -1.230  0.21963    
+## weight        -0.006474   0.000652  -9.929  < 2e-16 ***
+## acceleration   0.080576   0.098845   0.815  0.41548    
+## year           0.750773   0.050973  14.729  < 2e-16 ***
+## origin         1.426141   0.278136   5.127 4.67e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.328 on 384 degrees of freedom
+## Multiple R-squared:  0.8215, Adjusted R-squared:  0.8182 
+## F-statistic: 252.4 on 7 and 384 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(autodata}\OperatorTok{$}\NormalTok{mpg,autodata}\OperatorTok{$}\NormalTok{year,}\DataTypeTok{main=}\StringTok{'Scatter Plot of X and Y'}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{'MPG'}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{'Production Year'}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(fits)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in abline(fits): only using the first two of 8 regression coefficients
+\end{verbatim}
+
+\includegraphics{assignment1_files/figure-latex/unnamed-chunk-13-1.pdf}
+None of the predictors seem to relate too much to the mpg feature. The
+coefficient for the \textit{year} category (around 0.75) indicates that
+the y-intercept of the best fit line crosses the y-axis at the year
+1975. This would indicate that Cars made before 1975 would have a
+negative horsepower - which is obviously not the case.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Use the symbols \texttt{*} and \texttt{:} to fit linear regression
+  models with interaction effects. What do you observe?\\
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fits2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{cylinders}\OperatorTok{:}\NormalTok{displacement}\OperatorTok{:}\NormalTok{horsepower}\OperatorTok{:}\NormalTok{weight}\OperatorTok{:}\NormalTok{acceleration}\OperatorTok{:}\NormalTok{year}\OperatorTok{:}\NormalTok{origin ,}\DataTypeTok{data=}\NormalTok{autodata)}
+\KeywordTok{summary}\NormalTok{(fits2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = mpg ~ cylinders:displacement:horsepower:weight:acceleration:year:origin, 
+##     data = autodata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.0525  -3.8068  -0.8598   3.3632  19.2309 
+## 
+## Coefficients:
+##                                                                     Estimate
+## (Intercept)                                                        2.902e+01
+## cylinders:displacement:horsepower:weight:acceleration:year:origin -8.136e-12
+##                                                                   Std. Error
+## (Intercept)                                                        3.782e-01
+## cylinders:displacement:horsepower:weight:acceleration:year:origin  3.866e-13
+##                                                                   t value
+## (Intercept)                                                         76.72
+## cylinders:displacement:horsepower:weight:acceleration:year:origin  -21.05
+##                                                                   Pr(>|t|)    
+## (Intercept)                                                         <2e-16 ***
+## cylinders:displacement:horsepower:weight:acceleration:year:origin   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 5.347 on 390 degrees of freedom
+## Multiple R-squared:  0.5318, Adjusted R-squared:  0.5306 
+## F-statistic:   443 on 1 and 390 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Once again, there seems to be no correction between MPG and the other
+features, wven when we build regression models with interactions.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Try a few different transformations of variables, such as \(\log(X)\),
+  \(\sqrt{X}\), \(X^2\). What do you observe?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit4 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg}\OperatorTok{~}\NormalTok{(weight)}\OperatorTok{**}\DecValTok{2}\NormalTok{,}\DataTypeTok{data=}\NormalTok{autodata)}
+\KeywordTok{summary}\NormalTok{(fit4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = mpg ~ (weight)^2, data = autodata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -11.9736  -2.7556  -0.3358   2.1379  16.5194 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 46.216524   0.798673   57.87   <2e-16 ***
+## weight      -0.007647   0.000258  -29.64   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.333 on 390 degrees of freedom
+## Multiple R-squared:  0.6926, Adjusted R-squared:  0.6918 
+## F-statistic: 878.8 on 1 and 390 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\hypertarget{problem-3-25}{%
+\subsection{Problem 3 {[}25\%{]}}\label{problem-3-25}}
+
+Using equation (3.4) in ISL, argue that in the case of simple linear
+regression, the least squares line always passes through the point
+\((\bar{x}, \bar{y})\).\\
+
+Equation (3.4) in ISL:
+\[\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y})}
+{\sum_{i=1}^n(x_i-\bar{x})^2}\] and
+\[\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\] Simple linear
+regression produces a `line of best fit' using the two coefficients,
+\(\beta_0\) and \(\beta_1\) as defined above. This fit takes the form of
+\(f(X) = \beta_0 + \beta_1 X + \epsilon\). Given the difinition of
+\(\beta_0\), we can rewrite this fit as:
+\(f(X) = \bar{y} - \hat{\beta}_1(\bar{X}+X)\). Considering the defintion
+of \(\bar{X}\) and \(\bar{y}\) (as averages), the subsequenct math then
+follows that the regression will pass through some point given by
+\(\bar{x} = \frac{1}{n}\sum_{i=1}^nx_i\) and
+\(\bar{y} = \frac{1}{n}\sum_{i=1}^ny_i\), or some
+simply,\((\bar{x}, \bar{y})\).
+
+\hypertarget{problem-4-25}{%
+\subsection{Problem 4 {[}25\%{]}}\label{problem-4-25}}
+
+It is claimed in the ISL book that in the case of simple linear
+regression of \(Y\) onto \(X\), the \(R^2\) statistic (3.17) is equal to
+the square of the correlation between \(X\) and \(Y\) (3.18). Prove that
+this is the case. For simplicity, you may assume that
+\(\bar{x} = \bar{y} = 0\).\\
+The \(R^2\) metric is defined as (James,70-3.17):
+\[ R^2 \equiv 1 - \frac{RSS}{TSS}\] Where RSS is the
+\textit{residual sum of squares} and TSS is the
+\textit{total sum of squares}. The correlation coefficient is defined
+as: \[ Cor(X,Y) = \frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}
+{\sqrt{\sum_{i=1}^n(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^n(y_i-\bar{y})^2}}\]
+
+Thus if we take \(\hat{x} = \hat{y} = 0\) and square the function, we
+arrive at: \[ r^2 = \big(Cor(X,Y)\big)^2 =
+\frac{\big(\sum_{i=1}^nx_iy_i\big)^2}
+{\sum_{i=1}^n(x_i)^2\sum_{i=1}^n(y_i)^2}\]
+
+Thus, the RSS metric becomes \(\sum_{i=1}^n(y_i - \hat{y}_i)^2\) and the
+TSS metric becomes \(\sum_{i=1}^n(y_i)^2\). This allows for the
+insertion of RSS and TSS into the \((Cor(X,Y))^2\) function and thus we
+can see that \(r^2\) and \(R^2\) are identical measurements.
+
+\hypertarget{references}{%
+\subsection{References}\label{references}}
+
+Each reference is a link. Please open the PDF in a viewer if it is not
+working on the website.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf}{R
+  GGPlot cheat sheet}
+\item
+  \href{https://machinelearningmastery.com/visualize-machine-learning-data-python-pandas/}{Python
+  Pandas data visualization}
+\item
+  \href{https://r4ds.had.co.nz/index.html}{R For Data Science}
+\item
+  \href{https://www.rstudio.com/resources/cheatsheets/}{Cheatsheets}
+  fffTheThe
+\end{enumerate}
+
+\end{document}
