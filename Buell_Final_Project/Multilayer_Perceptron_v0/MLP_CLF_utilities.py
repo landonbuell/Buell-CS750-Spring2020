@@ -13,6 +13,7 @@ import os
 import sys
 
 from sklearn.neural_network import MLPClassifier
+import sklearn.metrics as metrics
 
             #### ACTIVATION FUNCTIONS ####
 
@@ -52,17 +53,22 @@ class MLP_Classifier ():
         I-th element is the number of neurons in the I-th hidden layer
     n_features (int) : Number of features for network
     n_targets (int) : Number of target classes
+    batch_size (int) : Number of samples in a single mini-batch
+    max_iters (int) : Indicate maximum number of training iters
     --------------------------------
     Return initialied instance
     """
 
-    def __init__(self,name,layer_sizes,n_features,n_classes):
+    def __init__(self,name,layer_sizes,n_features,n_classes,
+                 batch_size=100,max_iters=100):
         """ Initialize Object Instance """
         self.name = name                    # name of network
         self.layer_sizes = layer_sizes      # sizes of hidden layers
         self.depth = len(layer_sizes)       # number of hidden layers
         self.n_features = n_features        # number of input features
-        self.n_classes = n_classes          # number of output classees
+        self.n_classes = n_classes          # number of output classes
+        self.batch_size = batch_size        # sizes of mini-batches for training
+        self.max_iters = max_iters          # maximum iterations over data
         # generate weighting matrices & bias vectors 
         self.weight_dims,self.bais_dims = \
                 self.transformation_dims()      # dimensions for weight & bias arrays
@@ -113,37 +119,120 @@ class MLP_Classifier ():
 
     def forward_pass (self,x):
         """ Pass single sample through Network to last layer """
-        acts = [x]                      # hold all activations by layer
+        PRE_ACTS = [x]              # before act func is applied
+        FIN_ACTS = [x]              # hold all activations by layer      
         for layer in range (0,len(self.all_layers)-1):
             # exact elements & reshape
             W = self.weights[layer]     # extract weight matrix
             b = self.biases[layer]      # extract bias vector
             # use FP equations
-            y = W @ x + b               # mat x vec + vec
-            x = sigmoid(y)              # apply act func, now next layer    
-            acts = np.append(acts,x)    # add to list og activations
+            z = W @ x + b       # pre-activation
+            PRE_ACTS.append(z)  # add to vec to list
+            x = sigmoid(z)      # apply act func, now next layer    
+            FIN_ACTS.append(x)  # add vec to list
         # finished with all layers
-        return acts                     # return all activations
+        self.pre_activations = PRE_ACTS
+        self.activations = FIN_ACTS
+        return self
 
     def predict(self,X):
         """ Make predcitions based on feature matrix X """
         Z = np.array([])        # array to hold precited vals
         for x in X:             # each row:
             # run forward pass on sample
-            acts = self.forward_pass(x.transpose())
-            y = acts[-1]        # last layer activations
-            Z = np.append(Z,np.argmax(y))  # add prediction to array
+            self.forward_pass(x.transpose())    # forward pass data
+            output = self.activations[-1]       # output is last activations
+            Z = np.append(Z,np.argmax(output))  # add prediction to array
         return Z                # return arr of predictions
-            
+        
     def train_model (self,X,y):
         """ train model given feature matrix X & targets y """
-        N_samples = X.shape[0]
-        Y = self.target_matrix(y)
-        # iterate by row:
-        for sample in range(N_samples):
-            # Forward pass & compute loss func
-            pass_acts = self.forward_pass(X[sample].transpose())
-            x = acts[-1]                    # last layer activations 
-            loss = RSS_Loss(x,Y[sample])    # compute loss
-            self.losses = np.append(self.losses,loss)
-            # back propagate
+        N_samples = X.shape[0]          # number of samples
+        Y = self.target_matrix(y)       # build target matrix
+        batch_size = self.batch_size    # set batch size
+
+        # iterate through data
+        for I in range (self.max_iters):
+            shuffled = np.random.permutation(N_samples)
+            X,Y = X[shuffled],Y[shuffled]       # shuffle data            
+            X_batch,Y_batch = X[:batch_size],Y[:batch_size]
+
+            weight_grads,bias_grads,batch_loss = \
+                self.mini_batches(X_batch,Y_batch,batch_size)
+
+            # update matrices based on gradients for mini-batch
+            for layer in range(len(self.weights)):
+                self.weights[layer] += weight_grads[layer]
+                self.biases[layer] += bias_grads[layer]
+
+        return self                             # return updated model
+
+    def mini_batches (self,X_batch,Y_batch,batch_size):
+        """ Iterate through samples in a mini-batch of data """
+
+        minibatch_weight_grads = [np.zeros(W.shape) for W in self.weights]
+        minibatch_bias_grads = [np.zeros(b.shape) for b in self.biases]
+
+        # In mini-batch subset:
+        batch_loss_avg = 0
+        for x,y in zip(X_batch,Y_batch):
+            self.forward_pass(x.transpose())    # forward pass
+            output = self.activations[-1]       # network output
+            batch_loss_avg += RSS_Loss(output,y)# add loss val
+            # SGD ON SINGLE SAMPLE SGD(output,target)
+            dW,db = self.back_propagate(output,y)
+            for layer in range(len(self.weights)):   #add changes to grads for single samples
+                minibatch_weight_grads[layer] += dW[layer]
+                minibatch_bias_grads[layer] += db[layer]
+        # Now, we have gone through all samples in the mini-batch
+        batch_loss_avg /= batch_size        # avg loss for this mini-batch
+        for layer in range(len(self.weights)):   
+                minibatch_weight_grads[layer] /= batch_size
+                minibatch_bias_grads[layer] /= batch_size
+        # return avergaged bias & weight grads & avg loss for batch
+        return minibatch_weight_grads,minibatch_bias_grads,batch_loss_avg
+
+    def back_propagate(self,x,y):
+        """ Perform SGD Back-propagation given activations, weights & biases """
+        # hold activations
+        weight_grads = [np.zeros(W.shape) for W in self.weights]
+        bias_grads = [np.zeros(b.shape) for b in self.biases]
+        dx = x - y                  # output - input
+        for l in range (len(self.weights)-1,0,-1):
+            # Change is biases , weights & next layer
+            
+            """ Need to iteratively enact back propagation
+            - Keep running into trouble with dimesnional issues
+            - Need to ensure calculus is correct
+            """
+
+
+            weight_grads[l] += dW   # update weights
+            bias_grads[l] += db     # update biases
+        return weight_grads,bias_grads
+            
+
+            #### METRIC FUNCTIONS ####
+
+def confusion_matrix (model,y,z,show=False):
+    """
+    Generate Confusion Matrix for Specific Model
+    --------------------------------
+    model (class) : Instance of trained MLP model
+    y (array) : true testing values (n_samples x 1)
+    z (array) : predicted testing samples (n_samples x 1)
+    show (bool) : If True, visualize color-coded confusion matrix
+    --------------------------------
+    Return model w/ confusion matrix (n_classes x n_classes) attrb
+    """
+    confmat = metrics.confusion_matrix(y,z)
+    setattr(model,'confusion_matrix',confmat)
+    if show == True:
+        plt.title(str(model.name),size=20,weight='bold')
+        plt.xlabel('Predicted Classes',size=16,weight='bold')
+        plt.ylabel('Actual Classes',size=16,weight='bold')
+        plt.imshow(confmat,cmap=plt.cm.binary)
+        plt.show()
+    return model
+
+        
