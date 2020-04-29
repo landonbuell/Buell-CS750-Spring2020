@@ -209,16 +209,15 @@ class MLP_Classifier ():
         # hold activations (initialize w/ 0's)
         weight_grads = [np.zeros(W.shape) for W in self.weights]
         bias_grads = [np.zeros(b.shape) for b in self.biases]
-        dx = 2*(x - y).transpose()                  # output - input
+        dx = 2*(x - y).reshape(1,-1)                 # output - input
         for l in range (len(self.weights)-1,0,-1):
             # Change is biases , weights & next layer
-
             db = dx * self.pre_activations[l]       # change in baises
             dW = dx.reshape(-1,1) @ self.activations[l-1].reshape(1,-1)        # change in weights
             dx = self.weights[l].transpose() * db       # next layer
 
-            weight_grads[l] += dW   # update weights
-            bias_grads[l] += db     # update biases
+            weight_grads[l] += dW           # update weights
+            bias_grads[l] += db.ravel()     # update biases
         return weight_grads,bias_grads
 
     def print_weights(self):
