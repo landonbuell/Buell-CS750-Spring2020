@@ -24,7 +24,7 @@ if __name__ == '__main__':
     print("X Shape:",X.shape)
     print("Classes:",np.unique(y).shape)
 
-    CLF_MODEL = MLP_utils.MLP_Classifier('JARVIS',layer_sizes=(6,),
+    CLF_MODEL = MLP_utils.MLP_Classifier('Multilayer Perceptron',layer_sizes=(6,),
                                       momentum=1,n_features=4,n_classes=3)
 
     print(CLF_MODEL.weight_dims)

@@ -136,7 +136,7 @@ class MLP_Classifier ():
             # use FP equations
             z = W @ x + b       # pre-activation
             PRE_ACTS.append(z)  # add to vec to list              
-            x = 1*z             # "identity" activation
+            x = 1*z             # identity activation
             FIN_ACTS.append(x)  # add vec to list
         # finished with all layers
         self.pre_activations = PRE_ACTS
@@ -205,7 +205,8 @@ class MLP_Classifier ():
         return minibatch_weight_grads,minibatch_bias_grads,batch_loss_avg
 
     def back_propagate(self,x,y):
-        """ Perform SGD Back-propagation given activations, weights & biases """
+        """ Perform SGD Back-propagation given activations, weights & biases 
+            This has been adapted from Goodfellow's Deep Learning, Algorithm 6.4 """
         # hold activations (initialize w/ 0's)
         weight_grads = [np.zeros(W.shape) for W in self.weights]
         bias_grads = [np.zeros(b.shape) for b in self.biases]
