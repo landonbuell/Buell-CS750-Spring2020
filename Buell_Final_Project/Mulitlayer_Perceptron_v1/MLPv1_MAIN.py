@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # Create and train Classifier Instance
     CLF_MODEL = MLPv1_utils.Multilayer_Perceptron_Classifier('JARVIS',
                     n_features=4,n_classes=3,layer_sizes=(10,12),
-                    momentum=0.01,batch_size=100,max_iters=10)
+                    momentum=0.1,batch_size=100,max_iters=10)
     CLF_MODEL = CLF_MODEL.train_model(X_train,y_train)
 
     plt.plot(CLF_MODEL.losses)

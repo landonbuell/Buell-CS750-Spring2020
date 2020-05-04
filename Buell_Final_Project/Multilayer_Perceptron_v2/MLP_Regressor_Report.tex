@@ -1,0 +1,121 @@
+% ================================
+% Landon Buell
+% Marek Petrik
+% CS  750.01
+% 3 May 2020
+% ================================
+
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[top=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+
+\begin{document}
+
+% ================================================================
+
+\title{Multilayer Perceptron Regressor in Python 3}
+\author{Landon Buell}
+\date{25 April 2020}
+\maketitle
+
+% ================================================================
+
+\section{Introduction}
+\paragraph*{}The Multilayer Perceptron is an simple architecture type of neural networks developed by Frank Rosenblatt in the 1950's \cite{Geron,McCulloch}. It is based off of layers of neurons or nodes , that are connected through synapses and often given an additional intercept as well. Mathematically and computationally, this is modeled though use of column vectors to represents layers, with each entry as the \textit{activation} of a particular neuron \cite{Goodfellow,Petrik}. 
+\paragraph*{}The connections are modeled by elements matrices in matrices, and the intercepts are corresponding indicies inside a \textit{bias vector}. This means that for a fully connected network, every neuron activation in a given layer is the linear combination of all activations in the previous layer, plus an additional intercept. Additionally, an \textit{activation function} is included in this model in order to introduce a degree of non-linearity depending on the nature of the problem \cite{Goodfellow}. We can mathematically express the formula for a single activation in a layer $(l+1)$ as produced from a layer $(l)$ is:
+\begin{equation}
+\label{single activation}
+x^{(l+1)}_{i} = f\Big( \sum_{j} w^{(l)}_{ij} x^{(l)}_{j} + b^{(l)}_{i} \Big)
+\end{equation}
+\paragraph*{}We can express this more compactly, with a consolidated matrix-vector equation. Note that upper indicies indicate the layer number. Layer $0$ is the entry layer, where initial vectors of features are given to the network. In a model with $L$ layers, there layer $L-1$ represents the networks final output. We can denote this:
+\begin{equation}
+\label{feed-forward}
+\vec{x}^{(l+1)} = f\Big( \hat{W}^{(l)}\vec{x}^{(l)} + \vec{b}^{(l)} \Big)
+\end{equation}
+Where $\hat{W}^{(l)}$ is the $(m \times n)$ weighting matrix of the $l$-th, $\vec{x}^{(l)}$ is the $(n \times 1)$ vector containing the activations for the $l$-th layer. $\vec{b}^{(l)}$ is the $(m \times 1)$ bias vector which acts as in intercept for the decision boundary, and $\vec{x}^{(l+1)}$ 
+
+
+
+% ================================================================
+
+\section{Regressor Model}
+\paragraph*{}For this project, I have constructed a Multilayer Perceptron Regressor network model, composed of 1 hidden layer. In a $k$-bins classifier problem, the output of the network, layer $L-1$ would $k$ neurons here, one for each class, and in a regression setting, there is a single neuron, The activation of which is the networks decision \cite{Geron}. To simplify the complexity of the perceptron model, I have adapted a design build from James Loy's work \textit{Neural Network Projects with Python} \cite{Loy}. Note that Loy's model does not support bias vectors in the feed forward equation (\ref{feed-forward}) and uses the \textit{logistic sigmoid} activation function.
+\paragraph*{}I have generalized a class object \textit{"Multilayer\_Perceptron\_Regressor"} to be able to accept a data set in any (reasonable) dimensional feature space, pass it through a network consisting of a single hidden layer with any number of neurons in that layer. The perceptron then returns an output based on the data which can be compared to the target value for each class. To augment Loy's model, I have included a \textit{momentum} parameter that can scale the gradient in the SGD optimizer algorithm, as well as a method within the object instance to track the value of a Residual Sum of Squares Loss Function with each iteration.
+\paragraph*{}For this project, have chosen to iterate repeatedly over a simple data set also supplied by Loy.
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Feature 0} & \textbf{Feature 1} & \textbf{Feature 2} & \textbf{Target} \\ \hline
+0 & 0 & 1 & 0 \\ \hline
+0 & 1 & 1 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+1 & 1 & 1 & 0 \\ \hline
+\end{tabular}
+\end{center}
+Admittedly, this creates the trouble of over-fitting on the same set for 1000 epochs \cite{James}, but this serves as a proof-of-concept as well. For each model, I have chosen to use $10$ neurons in the single hidden layer.
+
+% ================================================================
+
+\section{Building \& Training}
+
+% ================================================================
+
+\section{Adjusting the Momentum Parameter}
+\paragraph*{}Since my earliest attempts at creating this model from scratch were unsuccessful, My model is mostly constructed on top of Loy's. To add more depth to this project, I experiment with adjusting a static momentum parameter between eight different models, in each model, the entries in the gradient vector are scaled by that constant. I have included the final output for each of the four Samples below, as well as the value for the final loss function iteration.
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model \#} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Momentum} & -0.1 & +0.1 & +0.5 & 0.75 & +0.9 & +1.0 & +5.0 & +10.0 \\ \hline
+\textbf{Sample 1} &
+\textbf{Sample 2} &
+\textbf{Sample 3} &
+\textbf{Sample 4} &
+\textbf{Final Loss} & 
+\end{tabular}
+\end{center}
+
+\paragraph*{}For each model, the current RSS loss function value is stored in an array. To compare the differences in how the loss function behaves (ideally approaches $0$ as the number of epochs approaches $+\infty$), I have provided  visualizations below comparing the models and their loss function after each iteration. 
+
+
+
+\section{Conclusion}
+\paragraph*{}From this experiment with a simple Multilayer Perceptron Regression Model, we can observe the following from tracking the loss function of each model with respect to each passing training epoch.
+\begin{itemize}
+\item[•]A model with a 'negative' momentum will diverge from a minimum and seek a maximum loss value - i.e. the gradient is pointing 'uphill'
+\item[•]A model with sufficiently low momentum will approach a minimum but may not reach a suitable minimum, even after many iterations
+\item[•]A model with a 'medium' momentum (around +1) will converge sufficiently quickly
+\item[•]A model with a greater momentum may converge faster than those with a smaller momentum, but often, the loss value experience more volatile changes incating an overshoot of a possible loss local minimum.
+\item[•]In general, models show behavior that the loss function asymptotically approaches zero, which is desirable to to discourage over-fitting.
+\end{itemize}
+
+% ================================================================
+
+\begin{thebibliography}{9}
+\bibliographystyle{apalike}
+
+\bibitem{Geron}
+Géron Aurélien. \textit{Hands-on Machine Learning with Scikit-Learn and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems}. O'Reilly, 2017.
+
+\bibitem{Goodfellow}
+Goodfellow, Ian, et al.\textit{Deep Learning}. MIT Press, 2017.
+
+\bibitem{James}
+James, Gareth, et al. \textit{An Introduction to Statistical Learning with Applications in R}. Springer, 2017.
+
+\bibitem{Loy}
+Loy, James. \textit{Neural Network projects with Python}. Packt Publishing, 2019
+
+\bibitem{McCulloch}
+McCulloch, Warren S., and Walter Pitts. “A Logical Calculus of the Ideas Immanent in Nervous Activity.” \textit{The Bulletin of Mathematical Biophysics}, vol. 5, no. 4, 1943, pp. 115–133.
+
+\bibitem{Petrik}
+Petrik, Marek. “Deep Neural Networks.” Machine Learning. 27 April. 2020, Durham, New Hampshire.
+
+\end{thebibliography}
+
+% ================================================================
+
+\end{document}

@@ -120,30 +120,27 @@ class Multilayer_Perceptron_Classifier():
         for I in range (0,self.max_iters):  # iterate through data
             print('iteration:',I)
 
-            """ Thought:
-            Perhaps skip mini-batches and simply iterate over the
-            X matrix directly? It may produce a result that is easier to interpret """
+            # Each Sample in Data Set"
+            for sample,target in zip(X,Y):
+                # Forward Pass Data
+                x = self.forward_pass(sample.reshape(-1,1))
 
-            # Permute / shuffle rows in X & Y
-            shuffled = np.random.permutation(n_samples)
-            X_shuffled,Y_shuffled = X[shuffled],Y[shuffled]
-            # Extract mini-batch
-            X_batch = X_shuffled[0:self.batch_size]
-            Y_batch = Y_shuffled[0:self.batch_size]
-            # Compute loss & grads for single mini-batch
-            batch_loss,weight_grads,bias_grads = \
-                self.mini_batch(X_batch,Y_batch)
-            # update weights & biases based on mini-batch grads
-            for l in range(self.depth-1):           # each W & b arr
-                self.weights[l] += weight_grads[l]     # update W
-                self.biases[l] += bias_grads[l]        # update b
-            # update loss list
-            self.losses = np.append(self.losses,batch_loss)
-            print('\tLoss:',batch_loss)
+                # Compute Weight & Bias Gradients
+                weight_grads,bias_grads = \
+                    self.back_prop(target)
+           
+                # update weights & biases based on mini-batch grads
+                for l in range(self.depth-1):           # each W & b arr
+                    self.weights[l] += weight_grads[l]     # update W
+                    self.biases[l] += bias_grads[l]        # update b
+                # update loss list
+                self.losses = np.append(self.losses,self.RSS_loss(x,target))
+
         return self                 # return fitted self inst.
 
+
     def mini_batch (self,X_batch,Y_batch):
-        """ Pass mini-batch """
+        """ Pass mini-batch (UNUSED) """
         avg_batch_loss = 0          # loss for mini-batch
         batch_weight_grads = [np.zeros(W.shape) for W in self.weights]   
         batch_bias_grads = [np.zeros(b.shape) for b in self.biases]

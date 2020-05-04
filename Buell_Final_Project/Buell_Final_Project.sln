@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Multilayer_Perceptron_v0", 
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Mulitlayer_Perceptron_v1", "Mulitlayer_Perceptron_v1\Mulitlayer_Perceptron_v1.pyproj", "{171F78C7-86DB-4F0C-B104-938B70F45F4B}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Multilayer_Perceptron_v2", "Multilayer_Perceptron_v2\Multilayer_Perceptron_v2.pyproj", "{077844CC-451F-411B-9A71-6DCB78A2C411}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,8 @@ Global
 		{72B99350-169C-48E9-8456-D597E6BA8B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{171F78C7-86DB-4F0C-B104-938B70F45F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{171F78C7-86DB-4F0C-B104-938B70F45F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077844CC-451F-411B-9A71-6DCB78A2C411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077844CC-451F-411B-9A71-6DCB78A2C411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
