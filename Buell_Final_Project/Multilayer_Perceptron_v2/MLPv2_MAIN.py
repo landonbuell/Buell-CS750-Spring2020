@@ -41,9 +41,11 @@ if __name__ == '__main__':
                                                             layer_size=10,momentum=momentums[I],max_iters=1000)
         MODEL = MODEL.Train_model(X,y)
         outputs = np.append(outputs,MODEL.output)
+        print("Final Loss:",MODEL.losses[-1])
         plt.plot(np.arange(0,1000),MODEL.losses,
                  label='Momentum = '+str(momentums[I]))
-        
+
+    plt.tight_layout()   
     plt.legend(loc='center right')
     plt.grid()
     plt.show()

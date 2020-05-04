@@ -41,7 +41,7 @@ Where $\hat{W}^{(l)}$ is the $(m \times n)$ weighting matrix of the $l$-th, $\ve
 % ================================================================
 
 \section{Regressor Model}
-\paragraph*{}For this project, I have constructed a Multilayer Perceptron Regressor network model, composed of 1 hidden layer. In a $k$-bins classifier problem, the output of the network, layer $L-1$ would $k$ neurons here, one for each class, and in a regression setting, there is a single neuron, The activation of which is the networks decision \cite{Geron}. To simplify the complexity of the perceptron model, I have adapted a design build from James Loy's work \textit{Neural Network Projects with Python} \cite{Loy}. Note that Loy's model does not support bias vectors in the feed forward equation (\ref{feed-forward}) and uses the \textit{logistic sigmoid} activation function.
+\paragraph*{}For this project, I have constructed a Multilayer Perceptron Regressor network model, composed of 1 hidden layer. In a $k$-bins classifier problem, the output of the network, layer $L-1$ would $k$ neurons here, one for each class, and in a regression setting, there is a single neuron, The activation of which is the networks decision \cite{Geron}. To simplify the complexity of the perceptron model, I have adapted a design build from James Loy's work \textit{Neural Network Projects with Python} \cite{Loy} that uses a user-built class object as a basis. Note that Loy's model does not support bias vectors in the feed forward equation (\ref{feed-forward}) and uses the \textit{logistic sigmoid} activation function.
 \paragraph*{}I have generalized a class object \textit{"Multilayer\_Perceptron\_Regressor"} to be able to accept a data set in any (reasonable) dimensional feature space, pass it through a network consisting of a single hidden layer with any number of neurons in that layer. The perceptron then returns an output based on the data which can be compared to the target value for each class. To augment Loy's model, I have included a \textit{momentum} parameter that can scale the gradient in the SGD optimizer algorithm, as well as a method within the object instance to track the value of a Residual Sum of Squares Loss Function with each iteration.
 \paragraph*{}For this project, have chosen to iterate repeatedly over a simple data set also supplied by Loy.
 \begin{center}
@@ -59,32 +59,73 @@ Admittedly, this creates the trouble of over-fitting on the same set for 1000 ep
 % ================================================================
 
 \section{Building \& Training}
+\paragraph*{}The model was built with a simple feed-forward architecture in mind. I hard-coded a system of 1 hidden layer, 2 matrices and no biases vectors. The standard feed forward equation (\ref{feed-forward}) was used twice to produce an output for the training set, and implemented as a method within the MLP object. To update the model parameters, a Gradient Descent algorithm was hard-coded in for simplicity as it's own method. The idea is to compute the gradient of the Loss function (RSS) with respect to each parameter in the weighting matrices. To better do this, we can break the feed-forward equation into two separate pieces:
+
+\begin{equation}
+\label{feed-forward modified}
+\vec{x}^{(l+1)} = f \Big( \vec{z}^{(l+1)} \Big) \textit{\hspace*{2cm}} \vec{z}^{(l+1)} = \hat{W}^{(l)}\vec{x}^{(l)} + \vec{b}^{(l)}
+\end{equation}
+\paragraph*{}Each element of the gradient is then the partial derivative of the loss function with respect to each element in the weight matrices. We can first differentiate the Loss function itself (Recall, RSS) with respect to the output layer $\vec{x}^{(2)}$.
+
+\begin{equation}
+\label{dx2}
+\nabla_{x^{(2)}}L = 2(\vec{y} - \vec{x}^{(2)})
+\end{equation}
+Where $L$ is the RSS loss function, $\vec{y}$ is a column vector containing the target outputs for each sample and $\vec{x}^{(2)}$ is the output as predicted by the network \cite{Loy,James}. Similarly, we can compute the gradient with respect to each element in the $\hat{W}^{(1)}$ matrix through use of the chain rule from multi-dimensional calculus \cite{Goodfellow}:
+\begin{equation}
+\label{dW1}
+\nabla_{W^{(1)}}L = \frac{\partial L}{\partial x^{(2)}} \frac{\partial f}{\partial z^{(2})} \frac{\partial z^{(2})}{\partial W^{(1)}} = 
+2(\vec{y} - \vec{x}^{(2)}) \odot f'\big(z^{(2})\big) * \vec{x}^{(1)}.T
+\end{equation}
+Note that $\frac{\partial L}{\partial x^{(2)}}$ can be treated as an element-wise version of $\nabla_{x^{(2)}}L$ in equation (\ref{dx2}). Recall that for $F$, we have chosen to use the logistic sigmoid function, and $\partial f$ indicates that first derivative of that function as well. Note than in all cases, standard matrix products ($*$) and Hadamard products ($\odot$) must be used appropriately to ensure accuracy and preserve dimensions.
+ 
+\paragraph*{}For the changes with respect to the hidden layer, we can compute:
+\begin{equation}
+\label{dx1}
+\nabla_{x^{(1)}}L = \frac{\partial L}{\partial x^{(2)}} \frac{\partial f}{\partial z^{(2})} \frac{\partial z^{(2})}{\partial x^{(1)}} = 
+2(\vec{y} - \vec{x}^{(2)}) \odot f'\big(z^{(2})\big) * \hat{W}^{(1)}.T
+\end{equation}
+Finally, we can compute the gradient with respect to each element in the $\hat{W}^{(0)}$ matrix.
+\begin{equation}
+\label{dW0}
+\nabla_{W^{(0)}}L = \frac{\partial L}{\partial x^{(1)}} \frac{\partial f}{\partial z^{(1})} \frac{\partial z^{(1})}{\partial W^{(0)}} = 
+\frac{\partial L}{\partial x^{(1)}} \odot f'\big(z^{(1)}\big) * \vec{x}^{(0)}.T
+\end{equation}
+Where $\frac{\partial L}{\partial x^{(1)}}$ is given in equation (\ref{dx1}).
+\paragraph*{}Each of these equations has been implemented computationally in a back propagation method. Once each gradient for the weights is computed, (\ref{dW0}) and (\ref{dW1}), the arrays are multiplied by the momentum scalar, and then added to the existing weights to update them. This process repeates for a for a number given by a "max\_iters" class attribute.
+
+\newpage
 
 % ================================================================
 
 \section{Adjusting the Momentum Parameter}
-\paragraph*{}Since my earliest attempts at creating this model from scratch were unsuccessful, My model is mostly constructed on top of Loy's. To add more depth to this project, I experiment with adjusting a static momentum parameter between eight different models, in each model, the entries in the gradient vector are scaled by that constant. I have included the final output for each of the four Samples below, as well as the value for the final loss function iteration.
+\paragraph*{}Since my earliest attempts at creating this model from scratch were unsuccessful, My model is mostly constructed on top of Loy's. To add more depth to this project, I experiment with adjusting a static momentum parameter between eight different models, in each model, the entries in the gradient vector are scaled by that constant. I have included the final output for each of the four samples below, as well as the value for the final loss function iteration.
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
 \textbf{Model \#} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
 \textbf{Momentum} & -0.1 & +0.1 & +0.5 & 0.75 & +0.9 & +1.0 & +5.0 & +10.0 \\ \hline
-\textbf{Sample 1} &
-\textbf{Sample 2} &
-\textbf{Sample 3} &
-\textbf{Sample 4} &
-\textbf{Final Loss} & 
+\textbf{Sample 1} & 0.9990 & 0.2969 & 0.0271 & 0.0203 & 0.0149 & 0.0210 & 0.0081 & 0.9999 \\ \hline
+\textbf{Sample 2} & 0.9997 & 0.6421 & 0.9518 & 0.9654 & 0.9674 & 0.9748 & 0.9911 & 0.9999 \\ \hline
+\textbf{Sample 3} & 0.9997 & 0.5296 & 0.9525 & 0.9636 & 0.9668 & 0.9743 & 0.9908 & 0.9999 \\ \hline
+\textbf{Sample 4} & 0.9998 & 0.5553 & 0.0582 & 0.0431 & 0.0397 & 0.0284 & 0.0101 & 0.9999 \\ \hline
+\textbf{Final Loss} & 1.9981 & 0.7518 & 0.0097 & 0.0039 & 0.0037 & 0.0031 & 0.0003 & 1.9999 \\ \hline
 \end{tabular}
 \end{center}
 
 \paragraph*{}For each model, the current RSS loss function value is stored in an array. To compare the differences in how the loss function behaves (ideally approaches $0$ as the number of epochs approaches $+\infty$), I have provided  visualizations below comparing the models and their loss function after each iteration. 
+\begin{center}
+\includegraphics[scale=0.35]{8_momentums}
+\end{center}
 
+\newpage
 
+% ================================================================
 
 \section{Conclusion}
 \paragraph*{}From this experiment with a simple Multilayer Perceptron Regression Model, we can observe the following from tracking the loss function of each model with respect to each passing training epoch.
 \begin{itemize}
-\item[•]A model with a 'negative' momentum will diverge from a minimum and seek a maximum loss value - i.e. the gradient is pointing 'uphill'
+\item[•]A model with a 'negative' momentum will diverge from a minimum and seek a maximum loss value - i.e. the gradient is pointing 'uphill'. Additionally, a sufficiently large enough momentum will cause an overshoot and diverge to a maximum as well.
 \item[•]A model with sufficiently low momentum will approach a minimum but may not reach a suitable minimum, even after many iterations
 \item[•]A model with a 'medium' momentum (around +1) will converge sufficiently quickly
 \item[•]A model with a greater momentum may converge faster than those with a smaller momentum, but often, the loss value experience more volatile changes incating an overshoot of a possible loss local minimum.
