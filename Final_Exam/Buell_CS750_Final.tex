@@ -1,0 +1,86 @@
+% ================
+% Landon Buell
+% Marek Petrik
+% CS 750.01
+% 8 May 2020
+% ================
+
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+
+% ================================================================
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CS750-Final Exam}
+\rhead{Landon Buell}
+\cfoot{\thepage}
+
+\begin{document}
+
+% ================================================================
+
+\title{Introduction to Machine Learning - Final Exam}
+\date{Spring 2020}
+\author{Landon Buell}
+\maketitle
+
+% ================================================================
+
+\section*{Problem 1}
+Assume that you have a data set with a predictor (feature) $X$ and the target $Y$. You run simple linear regression ($Y ~ X$) and get the best fit with RSS=20 and TSS=120.\\
+
+\textbf{1. What is the covariance between X and Y if the variances of X and Y are Var(X)=15 and Var(Y)=20?}
+\paragraph*{}The \textit{covariance} between variables $X$ and $Y$ is defined by:
+\begin{equation}
+\label{covar}
+Cov(X,Y) = E[XY] + E[X]E[Y]
+\end{equation}
+
+\textbf{2. Repeat if RSS=50 and TSS=40. Discuss the result.}
+
+% ================================================================
+
+\section*{Problem 2}
+
+% ================================================================
+
+\section*{Problem 3}
+
+\textbf{1. Do you expect random forests to achieve a smaller or larger training error than bagged trees with the same number of trees? Justify your answer.}
+
+
+\textbf{2. How would you expect the training error of bagged trees to compare with boosted trees? Justify your answer.}
+
+
+\textbf{3. How would you decide how many trees to use for any particular data set in a random forest? It is best to choose the number that minimizes the training error? Why or why not?}
+
+% ================================================================
+
+\section*{Problem 4}
+This problem examines the differences between SVC (linear SVM), SVM with a polynomial kernel, and other linear classifiers. \\
+
+\textbf{1. For an arbitrary training set, would you expect for SVC (linear) or SVM (polynomial kernel) to work better on the training set? Why?}
+
+
+\textbf{2. If the Bayes decision boundary between the two classes is linear, would you expect SVC or SVM to work better on the training set?}
+
+
+\textbf{3. True or False: There is no need to use slack variables in SVMs with polynomial kernels because the decision boundary can be nonlinear. Justify your answer.}
+
+
+\textbf{4. LDA, Logistic regression, and SVC (linear) all fit a linear decision boundary. Will their fits be the same? What would be some reasons for you to prefer LDA over SVC?}
+
+
+% ================================================================
+
+\section*{Problem 5}
+
+
+% ================================================================
+
+
+\end{document}
