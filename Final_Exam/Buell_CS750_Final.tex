@@ -93,12 +93,15 @@ This problem examines the differences between SVC (linear SVM), SVM with a polyn
 \paragraph*{}On the other hand, a polynomial kernel Support Vector Machine, is built off of polynomial decision boundaries. Adding more terms and features is guaranteed to decrease the training error, but not necessarily the test error. Furthermore, In some cases, features with almost-linear decision boundary can be approximated with a polynomial where higher degrees have extremely small coefficients (Almost like Taylor-Series). In this cases, a polynomial kernel would still perform well on a linearly separable data set.\\
 
 \textbf{2. If the Bayes decision boundary between the two classes is linear, would you expect SVC or SVM to work better on the training set?}
-\paragraph*{}If we know the decision boundary is linear, then a SVC
+\paragraph*{}If we know the decision boundary is linear, then a SVC, which assumes a linear decision boundary, would be the optimal choice. However,
+an SVM, which often produces a non-linear boundary might perform better on a \textit{training} set because it has the advantage of a greater number of features, which will always reduce the training error. Thus a linear SVC would so better on a test set and a polynomial SVM would still do better on a training set due to it's flexibility to fit that set.\\
 
 \textbf{3. True or False: There is no need to use slack variables in SVMs with polynomial kernels because the decision boundary can be nonlinear. Justify your answer.}
 
 
 \textbf{4. LDA, Logistic regression, and SVC (linear) all fit a linear decision boundary. Will their fits be the same? What would be some reasons for you to prefer LDA over SVC?}
+\paragraph*{}The fits between LDA, Log Reg and SVC are all based on linear decision boundaries, but each one is constructed differently and comes with different purposes - thus the fits are not guaranteed to be the same, and in most cases, will not be the same. For example, Logistic Regression a probability concept based on the logistic function. The value of the function is then used as a percentage probability that a sample existent within a certain class given a feature space, split along the 50/50 line, which creates the decision boundary. Support Vector Classifiers also build decision boundaries but also included maximum margin ranges, which are the support vectors. This does not really include a formal probability metrics, but does add a tolerance band for class features.
+\paragraph*{}In the case of LDA, it also attempts to build a class prediction based on a set of predictors, but allows for allows for a few other ideas that may make it favorable to SVC's in a few contexts: As stated in ISL, pg. 138, LDA performs will with well-defined decision boundaries, and offers a probability for it's sample to be in a class, given it's predictors, whereas a SVC mostly gives a decision boundary and a maximum margin tolerance. Additionally, if the predictors in a data set are vaguely Gaussian, LDA will perform well because this distribution is one of it's core assumptions.
 
 
 % ================================================================
