@@ -34,13 +34,27 @@
 Assume that you have a data set with a predictor (feature) $X$ and the target $Y$. You run simple linear regression ($Y ~ X$) and get the best fit with RSS=20 and TSS=120.\\
 
 \subsection*{1. What is the covariance between X and Y if the variances of X and Y are Var(X)=15 and Var(Y)=20?}
-\paragraph*{}The \textit{covariance} between variables $X$ and $Y$ is defined by:
+\paragraph*{}Using the RSS and TSS metric, we can compute the $R^2$ statistic for the linear regression fit given the two metrics.
 \begin{equation}
-\label{covar}
-Cov(X,Y) = E[XY] + E[X]E[Y]
+\label{R^2}
+R^2 = 1 - \frac{RSS}{TSS} = 1 - \frac{20}{120} = \frac{5}{6}
 \end{equation}
+Know that $R^2 = r^2$ which is the correlation between $X$ and $Y$, thus $Cor(X,Y) = r = \pm\sqrt{R^2} = \pm\sqrt{\frac{5}{6}}$.
+Finall, from ISL, 3.18, we know how the correlation coefficient relates to the Covariance, and the two variances:
+\begin{equation}
+\label{Cor}
+Cor(X,Y) = \frac{Cov(X,Y)}{\sqrt{\sigma^2_X}\sqrt{\sigma^2_Y}}
+\end{equation}
+Thus we solve for the covariance between $X$ and $Y$:
+\begin{equation}
+\label{Cov}
+Cov(X,Y) = Cor(X,Y)\sqrt{Var(X)}\sqrt{Var(Y} = \pm\sqrt{\frac{5}{6}(15)(20)} = \sqrt{250}
+\end{equation}
+\paragraph*{}Thus for RSS = 20 , TSS = 120, Var(X) = 15 and Var(Y) = 20, the resulting covariance, Cov(X,Y) = $\pm\sqrt{250}$.
 
 \subsection*{2. Repeat if RSS=50 and TSS=40. Discuss the result.}
+\paragraph*{}Repeat the same process as above, We can compute $R^2 = -1/4$ which onto it's own creates a problem! $R^2$ is bound on the inter val $[0,1]$ so a negative number certain raises some issues. Looking at the respective definitions of RSS and TSS, it seems impossible for this to occur in practice, thus I would attribute this to a numerical error, switching the two metrics or producing a fit so bad, we've broken statistics so much that we've pushed ourselves into the complex plane for the correlation coefficient. However, continuing the calculation would show that Cov(X,Y) = $\frac{1}{2}i\sqrt{300}$, which again, is physically unrealistic, uninterpretable and holds no physical meaning.
+
 
 % ================================================================
 
@@ -87,7 +101,7 @@ $\sum|\beta_j| \leq \frac{1}{\lambda} \rightarrow 0$ as well. As the region shri
 \paragraph*{}Bagged trees as described above, contrast with Boosted trees. Boosted trees involve taking a subset of the design matrix, and using residuals, rather than the start target. In each iteration, some small decision tree is produced based on that feature or sample subset and target and then that small tree is added to the larger model (along with a shrinkage parameters). This process repeats for $B$ trees as outlined in ISL Algorithm 8.2. By modifying these parameters as needed, the tress can grow into all different shapes and make splits and leafs based on different parameters. In general, this would cause of the training error of boosted trees to be lower than that of bagged trees.
 
 \subsection*{3. How would you decide how many trees to use for any particular data set in a random forest? It is best to choose the number that minimizes the training error? Why or why not?}
-\paragraph*{}As always, there is no set rule to determine the number of Trees to use in any problem, it varies between data sets. It is not wise to choose a number of trees that reduces the \textit{training error} because this indicates a model that will over fit that particular training set and thus not do well on a testing set. Thus, to choose the appropriate number of trees for a given data set or problem, I would again apply some sort of \textit{cross-validation} procedure to find what number of decision trees in a random forest reduces the \textit{testing error} when trained on a similar data set. This would allow for the determining of the correct number of trees, along with a a roughtly minimized testing error.
+\paragraph*{}As always, there is no set rule to determine the number of Trees to use in any problem, it varies between data sets. It is not wise to choose a number of trees that reduces the \textit{training error} because this indicates a model that will over fit that particular training set and thus not do well on a testing set. Thus, to choose the appropriate number of trees for a given data set or problem, I would again apply some sort of \textit{cross-validation} procedure to find what number of decision trees in a random forest reduces the \textit{testing error} when trained on a similar data set. This would allow for the determining of the correct number of trees, along with a a roughly minimized testing error.
 
 % ================================================================
 
