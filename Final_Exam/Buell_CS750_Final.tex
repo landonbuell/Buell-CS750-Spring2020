@@ -133,10 +133,23 @@ an SVM, which often produces a non-linear boundary might perform better on a \te
 \section*{Problem 5}
 
 \subsection*{1. Show that the method of least absolute deviations is the maximum likelihood solution to fitting a linear function to a target when assuming that the prediction error is distributed according to the Laplace distribution.}
-
-
+I'll give this one my best shot. but I'm not sure!
+\paragraph*{}The Maximum likelihood solution is obtained my minimizing the objective function:
+\begin{equation}
+\hat{L}(\theta;x) = \frac{1}{n} \sum_{i=1}^{n} \ln \Big[ f(x;\theta) \Big]
+\end{equation}
+We want $f(x;\theta)$ to be of the form $\hat{\theta}_0 + \hat{\theta}_1x$ with an associate error according to the Laplace distribution is given by:
+\begin{equation}
+\epsilon = \frac{1}{2b}e^{-\frac{|x-\mu|}{b}}
+\end{equation}
+\paragraph*{}Thus, putting this into the objective function:
+\begin{equation}
+\hat{L}(\theta;x) = \frac{1}{n} \sum_{i=1}^{n} \ln \Big[ \hat{\theta}_0 + \hat{\theta}_1x + \frac{1}{2b}e^{-\frac{|x-\mu|}{b}} \Big]
+\end{equation}
+Truthfully, I'm not sure how to go about this one! I was hoping to be able to use the natural log of $e$ to just keep the exponent factor, and hopefully use that in combination with the remaining terms, along with the average parameter to quantify the Least absolute deviation. Unfortunately, I can't seem to get the math to work out right now, though I do hope to see the solution to this problem, it seems very interesting!
 
 \subsection*{2. Is the method of least absolute deviations the same as or different from median regression (quantile regression with $\tau = 1/2$)? prove it?}
+Using Quantile regression with $\tau = \frac{1}{2}$
 
 % ================================================================
 
